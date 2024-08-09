@@ -2,28 +2,60 @@
 
 {% block content %}
 
-<div class="md-col-6 off-set-3">
     {% if user.is_authenticated %}
-    <h1>Hello you logged in </h1>
+    <h1><center> Records </center> </h1>
+    <table  class="table table-dark table-striped table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Address</th>
+          <th scope="col">City</th>
+          <th scope="col">Zipcode</th>
+          <th scope="col"> Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if records %}
+          {% for record in records %}
+            <tr>
+              <td><a href=" {% url 'record' record.id %}">{{ record.id }} </a> </td>
+              <td>{{ record.first_name }}
+                  {{ record.last_name }}</td>
+              <td>{{ record.email }}</td>
+              <td>{{ record.phone_number }} </td>
+              <td>{{ record.address }}</td>
+              <td>{{ record.city }}</td>
+              <td>{{ record.zipcode }}</td>
+              <td>{{ record.created_at }}</td>
+            </tr>  
+        {% endfor %}
+        {% endif %}
+        
+      </tbody>
+    </table>   
 
     {% else %}
-    <h1>Login</h1>
+    <div class="col-md-6 offset-md-3">
+      <h1>Login</h1>
+      <br/>
 
-    <form method="POST" action="{% url 'home' %}">
-        {% csrf_token %}
-        <div class="mb-3 col-6">
-            <label> Username </label>
-            <input type="text" class="form-control" name="username" placeholder="Username" required>
-          </div>
-          <div class="mb-3 col-6">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
-          </div>
-          <div class="md-3 col-6" style="display: flex; flex-direction: column; align-items: center;">
-            <button type="submit" class="btn btn-primary md-3 col-12">Submit</button>    
-          </div>  
-        </form>
+      <form method="POST" action="{% url 'home' %}">
+          {% csrf_token %}
+          <div class="mb-3 col-12">
+              <label> Username </label>
+              <input type="text" class="form-control" name="username" placeholder="Username" required>
+            </div>
+            <div class="mb-3 col-12">
+              <label>Password</label>
+              <input type="password" class="form-control" name="password" placeholder="Password" required>
+            </div>
+            <div class="md-3 col-12" style="display: flex; flex-direction: column; align-items: center;">
+              <button type="submit" class="btn btn-primary md-3 col-12">Submit</button>    
+            </div>  
+          </form>
     {% endif %}
-</div>
 
 {% endblock %}
