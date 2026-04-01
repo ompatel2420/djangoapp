@@ -25,6 +25,17 @@
                         <i class="bi bi-plus-circle me-1"></i> Add Record
                     </a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">
+                        <i class="bi bi-person-plus-fill me-1"></i> Register
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                    </a>
+                </li>
                 {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'features' %}">
@@ -53,7 +64,7 @@
                     </a>
                 {% else %}
                     <a class="btn btn-nexus-secondary btn-sm" href="{% url 'register' %}">Register</a>
-                    <a class="btn btn-nexus-primary btn-sm" href="{% url 'home' %}">
+                    <a class="btn btn-nexus-primary btn-sm" href="{% url 'login' %}">
                         <i class="bi bi-box-arrow-in-right me-1"></i> Login
                     </a>
                 {% endif %}

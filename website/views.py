@@ -36,7 +36,8 @@ def login_user(request):
             messages.error(request, 'Incorrect credentials. Please try again.')
             return redirect('home')
     else:
-        return redirect('home')
+        return render(request, 'login.html')
+
 
 
 def logout_user(request):
