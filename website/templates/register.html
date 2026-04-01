@@ -1,20 +1,30 @@
 {% extends 'base.html' %}
+
 {% block content %}
 
-<div class="col-md-6 offset-md-3">
-    <h1>Register</h1>
-    <br/>
-    
-    <form method="POST" action="">
-        {% csrf_token %}
-    
-        {{ form.as_p }}
-    
-        <br/>
-          <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-    
-    
-    
+<div class="nexus-auth-wrapper">
+    <div class="nexus-auth-card" style="max-width: 520px;">
+        <div class="nexus-auth-header">
+            <div class="auth-icon">
+                <i class="bi bi-person-plus-fill"></i>
+            </div>
+            <h1>Create Account</h1>
+            <p>Join AprilFool and start managing your contacts</p>
+        </div>
+        <div class="nexus-auth-body">
+            <form method="POST" action="{% url 'register' %}" id="registerForm">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-nexus-primary" id="registerSubmit">
+                    <i class="bi bi-check-lg me-1"></i> Create Account
+                </button>
+            </form>
+        </div>
+        <div class="nexus-auth-footer">
+            <span class="text-muted">Already have an account?</span>
+            <a href="{% url 'home' %}"> Sign in</a>
+        </div>
     </div>
+</div>
+
 {% endblock %}

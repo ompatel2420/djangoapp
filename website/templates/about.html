@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="landing-section">
+    <div class="section-header">
+        <span class="section-badge"><i class="bi bi-person-badge"></i> About the Project</span>
+        <h2 class="section-title">The <span class="gradient-text">Test Engineer</span> Vision</h2>
+        <p class="section-subtitle">A showcase of human-AI collaboration in modern web development.</p>
+    </div>
+
+    <div class="nexus-card mb-5">
+        <div class="nexus-card-body">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <h3 class="mb-3">Who made this?</h3>
+                    <p class="text-secondary">This project was conceived and directed by a **Test Engineer** who wanted to demonstrate how modern AI could be used to build premium, production-ready web applications without traditional frontend development expertise.</p>
+                    <p class="text-secondary">By combining deep domain knowledge of software testing and quality assurance with the generative power of AI, we've created a CRM that is not just functional, but visually stunning and robust.</p>
+                </div>
+                <div class="col-md-6 text-center">
+                    <div class="feature-icon purple mx-auto" style="width: 120px; height: 120px; font-size: 3rem;">
+                        <i class="bi bi-robot"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="nexus-card h-100">
+                <div class="nexus-card-body">
+                    <div class="feature-icon cyan"><i class="bi bi-lightning-fill"></i></div>
+                    <h4>AI Co-Pilot</h4>
+                    <p class="text-muted">Every line of CSS, HTML, and Python was generated through iterative conversations with a high-level AI assistant.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="nexus-card h-100">
+                <div class="nexus-card-body">
+                    <div class="feature-icon green"><i class="bi bi-shield-check"></i></div>
+                    <h4>QA Mindset</h4>
+                    <p class="text-muted">Built with a focus on reliability, error handling, and robust data validation from the very first prompt.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="nexus-card h-100">
+                <div class="nexus-card-body">
+                    <div class="feature-icon orange"><i class="bi bi-calendar-event"></i></div>
+                    <h4>April 1st, 2026</h4>
+                    <p class="text-muted">Launched as a special project to celebrate the intersection of humor and high-tech innovation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="{% url 'home' %}" class="btn btn-nexus-primary btn-lg">Back to Home</a>
+    </div>
+</section>
+{% endblock %}

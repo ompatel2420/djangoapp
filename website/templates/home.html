@@ -2,60 +2,281 @@
 
 {% block content %}
 
-    {% if user.is_authenticated %}
-    <h1><center> Records </center> </h1>
-    <table  class="table table-dark table-striped table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Email</th>
-          <th scope="col">Phone Number</th>
-          <th scope="col">Address</th>
-          <th scope="col">City</th>
-          <th scope="col">Zipcode</th>
-          <th scope="col"> Created At</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% if records %}
-          {% for record in records %}
-            <tr>
-              <td><a href=" {% url 'record' record.id %}"> {{ record.id }} </a> </td>
-              <td>{{ record.first_name }}
-                  {{ record.last_name }}</td>
-              <td>{{ record.email }}</td>
-              <td>{{ record.phone_number }} </td>
-              <td>{{ record.address }}</td>
-              <td>{{ record.city }}</td>
-              <td>{{ record.zipcode }}</td>
-              <td>{{ record.created_at }}</td>
-            </tr>  
-        {% endfor %}
-        {% endif %}
-        
-      </tbody>
-    </table>   
+{% if user.is_authenticated %}
+    <!-- ═══════ AUTHENTICATED DASHBOARD ═══════ -->
+    <div class="nexus-dashboard-header">
+        <h1><span>Dashboard</span></h1>
+        <a href="{% url 'add_record' %}" class="btn btn-nexus-primary">
+            <i class="bi bi-plus-lg me-1"></i> New Record
+        </a>
+    </div>
 
+    <div class="nexus-stats">
+        <div class="nexus-stat-card">
+            <div class="nexus-stat-icon purple"><i class="bi bi-people-fill"></i></div>
+            <div>
+                <div class="nexus-stat-value">{{ records|length }}</div>
+                <div class="nexus-stat-label">Total Records</div>
+            </div>
+        </div>
+        <div class="nexus-stat-card">
+            <div class="nexus-stat-icon cyan"><i class="bi bi-clock-history"></i></div>
+            <div>
+                {% if records %}
+                <div class="nexus-stat-value" style="font-size: 1.1rem;">{{ records.last.first_name }} {{ records.last.last_name }}</div>
+                {% else %}
+                <div class="nexus-stat-value" style="font-size: 1.1rem;">—</div>
+                {% endif %}
+                <div class="nexus-stat-label">Latest Entry</div>
+            </div>
+        </div>
+        <div class="nexus-stat-card">
+            <div class="nexus-stat-icon green"><i class="bi bi-geo-alt-fill"></i></div>
+            <div>
+                <div class="nexus-stat-value">{{ records|length }}</div>
+                <div class="nexus-stat-label">Active Contacts</div>
+            </div>
+        </div>
+    </div>
+
+    {% if records %}
+    <div class="nexus-table-wrapper">
+        <table class="nexus-table" id="recordsTable">
+            <thead>
+                <tr>
+                    <th><i class="bi bi-hash me-1"></i>ID</th>
+                    <th><i class="bi bi-person me-1"></i>Name</th>
+                    <th><i class="bi bi-envelope me-1"></i>Email</th>
+                    <th><i class="bi bi-telephone me-1"></i>Phone</th>
+                    <th><i class="bi bi-geo-alt me-1"></i>Address</th>
+                    <th><i class="bi bi-building me-1"></i>City</th>
+                    <th><i class="bi bi-mailbox me-1"></i>Zip</th>
+                    <th><i class="bi bi-calendar3 me-1"></i>Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>
+                        <a href="{% url 'record' record.id %}" class="record-link">
+                            #{{ record.id }} <i class="bi bi-arrow-up-right"></i>
+                        </a>
+                    </td>
+                    <td class="record-name">{{ record.first_name }} {{ record.last_name }}</td>
+                    <td>{{ record.email }}</td>
+                    <td>{{ record.phone_number }}</td>
+                    <td>{{ record.address }}</td>
+                    <td>{{ record.city }}</td>
+                    <td>{{ record.zipcode }}</td>
+                    <td>{{ record.created_at|date:"M d, Y" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {% else %}
-    <div class="col-md-6 offset-md-3">
-      <h1>Login</h1>
-      <br/>
-
-      <form method="POST" action="{% url 'home' %}">
-          {% csrf_token %}
-          <div class="mb-3 col-12">
-              <label> Username </label>
-              <input type="text" class="form-control" name="username" placeholder="Username" required>
-            </div>
-            <div class="mb-3 col-12">
-              <label>Password</label>
-              <input type="password" class="form-control" name="password" placeholder="Password" required>
-            </div>
-            <div class="md-3 col-12" style="display: flex; flex-direction: column; align-items: center;">
-              <button type="submit" class="btn btn-primary md-3 col-12">Submit</button>    
-            </div>  
-          </form>
+    <div class="nexus-card">
+        <div class="nexus-empty">
+            <div class="empty-icon"><i class="bi bi-inbox"></i></div>
+            <h3>No records yet</h3>
+            <p class="text-muted">Start by adding your first customer record.</p>
+            <a href="{% url 'add_record' %}" class="btn btn-nexus-primary mt-3">
+                <i class="bi bi-plus-lg me-1"></i> Add First Record
+            </a>
+        </div>
+    </div>
     {% endif %}
+
+{% else %}
+    <!-- ═══════ LANDING PAGE FOR VISITORS ═══════ -->
+
+    <!-- HERO SECTION -->
+    <section class="landing-hero">
+        <div class="hero-badge">
+            <i class="bi bi-cpu-fill"></i> Built with Modern AI · April 2026
+        </div>
+        <h1 class="hero-title">
+            A <span class="gradient-text">Test Engineer</span> built this<br>
+            entire website using <span class="gradient-text">AI</span>
+        </h1>
+        <p class="hero-subtitle">
+            This premium CRM dashboard was crafted from scratch by a QA/Test Engineer 
+            leveraging cutting-edge AI assistants — proving that the future of software 
+            development is collaborative, intelligent, and accessible to everyone.
+        </p>
+        <div class="hero-cta">
+            <a href="{% url 'register' %}" class="btn btn-nexus-primary btn-lg">
+                <i class="bi bi-rocket-takeoff me-2"></i> Get Started Free
+            </a>
+            <a href="{% url 'features' %}" class="btn btn-nexus-secondary btn-lg">
+                <i class="bi bi-play-circle me-2"></i> Explore Features
+            </a>
+        </div>
+        <div class="hero-stats-row">
+            <div class="hero-stat">
+                <div class="hero-stat-number">100%</div>
+                <div class="hero-stat-text">AI-Assisted</div>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <div class="hero-stat-number">0</div>
+                <div class="hero-stat-text">Lines Hand-Coded</div>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <div class="hero-stat-number">1</div>
+                <div class="hero-stat-text">April Fool 🎪</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECH STACK MARQUEE -->
+    <section class="landing-section">
+        <div class="marquee-label">POWERED BY</div>
+        <div class="tech-marquee">
+            <div class="tech-marquee-inner">
+                <span class="tech-chip"><i class="bi bi-filetype-py"></i> Django 5</span>
+                <span class="tech-chip"><i class="bi bi-bootstrap"></i> Bootstrap 5</span>
+                <span class="tech-chip"><i class="bi bi-database"></i> SQLite</span>
+                <span class="tech-chip"><i class="bi bi-filetype-css"></i> Custom CSS</span>
+                <span class="tech-chip"><i class="bi bi-robot"></i> AI Assistant</span>
+                <span class="tech-chip"><i class="bi bi-filetype-html"></i> HTML5</span>
+                <span class="tech-chip"><i class="bi bi-shield-lock"></i> Auth System</span>
+                <span class="tech-chip"><i class="bi bi-filetype-py"></i> Django 5</span>
+                <span class="tech-chip"><i class="bi bi-bootstrap"></i> Bootstrap 5</span>
+                <span class="tech-chip"><i class="bi bi-database"></i> SQLite</span>
+                <span class="tech-chip"><i class="bi bi-filetype-css"></i> Custom CSS</span>
+                <span class="tech-chip"><i class="bi bi-robot"></i> AI Assistant</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES GRID -->
+    <section class="landing-section">
+        <div class="section-header">
+            <span class="section-badge"><i class="bi bi-lightning-charge-fill"></i> Features</span>
+            <h2 class="section-title">Everything you need,<br><span class="gradient-text">nothing you don't</span></h2>
+            <p class="section-subtitle">A full-stack CRM built entirely through AI-human collaboration</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon purple"><i class="bi bi-shield-lock-fill"></i></div>
+                <h3>Secure Authentication</h3>
+                <p>Full login, registration & logout system with password hashing and session management.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon cyan"><i class="bi bi-database-fill-gear"></i></div>
+                <h3>Full CRUD Operations</h3>
+                <p>Create, Read, Update, and Delete customer records with real-time feedback and validation.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon green"><i class="bi bi-palette-fill"></i></div>
+                <h3>Premium Dark UI</h3>
+                <p>Glassmorphism design with animated gradients, micro-interactions, and a curated dark palette.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon orange"><i class="bi bi-phone-fill"></i></div>
+                <h3>Fully Responsive</h3>
+                <p>Pixel-perfect on every device — mobile, tablet, and desktop with adaptive layouts.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon pink"><i class="bi bi-graph-up-arrow"></i></div>
+                <h3>Live Dashboard</h3>
+                <p>Real-time stats cards, sortable data table, and instant visual feedback on every action.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon blue"><i class="bi bi-robot"></i></div>
+                <h3>AI-Powered Development</h3>
+                <p>Every line of code generated through intelligent AI collaboration — the future is now.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WAS BUILT -->
+    <section class="landing-section">
+        <div class="section-header">
+            <span class="section-badge"><i class="bi bi-gear-wide-connected"></i> The Process</span>
+            <h2 class="section-title">How a <span class="gradient-text">Test Engineer</span><br>built this with AI</h2>
+            <p class="section-subtitle">No frontend experience needed — just a vision and the right tools</p>
+        </div>
+        <div class="process-timeline">
+            <div class="process-step">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h4>Describe the Vision</h4>
+                    <p>Started with a basic Django app and described the desired premium look to an AI assistant.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h4>AI Analyzes & Plans</h4>
+                    <p>The AI analyzed every file, identified bugs, and created a comprehensive implementation plan.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h4>Instant Transformation</h4>
+                    <p>680+ lines of custom CSS, 7 redesigned templates, and bug fixes — all generated in minutes.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">04</div>
+                <div class="step-content">
+                    <h4>Test & Ship</h4>
+                    <p>AI ran automated checks, tested in-browser, and verified every user flow end-to-end.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="landing-section">
+        <div class="landing-cta-card">
+            <div class="cta-glow"></div>
+            <h2>Ready to explore?</h2>
+            <p>Create your free account and see the AI-built dashboard in action.</p>
+            <div class="hero-cta">
+                <a href="{% url 'register' %}" class="btn btn-nexus-primary btn-lg">
+                    <i class="bi bi-person-plus me-2"></i> Create Free Account
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="landing-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <span class="brand-icon"><i class="bi bi-hexagon-fill"></i></span>
+                    <span class="gradient-text" style="font-weight:800; font-size:1.3rem;">AprilFool</span>
+                </div>
+                <p>A premium CRM dashboard built entirely by AI, guided by a Test Engineer's vision.</p>
+            </div>
+            <div class="footer-links">
+                <h5>Product</h5>
+                <a href="{% url 'features' %}">Features</a>
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </div>
+            <div class="footer-links">
+                <h5>Account</h5>
+                <a href="{% url 'home' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+            </div>
+            <div class="footer-links">
+                <h5>Tech Stack</h5>
+                <a href="#">Django 5</a>
+                <a href="#">Bootstrap 5</a>
+                <a href="#">SQLite</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 AprilFool Project — Built with <i class="bi bi-heart-fill" style="color: var(--danger);"></i> by a Test Engineer + AI on April 1st</p>
+        </div>
+    </footer>
+{% endif %}
 
 {% endblock %}
