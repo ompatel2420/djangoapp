@@ -1,0 +1,10 @@
+[project]
+name = "djangoapp"
+version = "0.1.0"
+dependencies = [
+    "django",
+    "whitenoise",
+]
+
+[tool.setuptools]
+package-dir = {"" = "."}
