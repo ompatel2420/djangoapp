@@ -4,6 +4,8 @@ version = "0.1.0"
 dependencies = [
     "django",
     "whitenoise",
+    "dj-database-url",
+    "psycopg2-binary",
 ]
 
 [tool.setuptools]
